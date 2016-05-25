@@ -5,6 +5,7 @@ Export-Package:  \
 	org.daisy.dotify.api.text,\
 	org.daisy.dotify.api.translator,\
 	org.daisy.dotify.api.obfl,\
+	org.daisy.dotify.api.osgi,\
 	org.daisy.dotify.graphics,\
 	org.daisy.dotify.api.formatter,\
 	org.daisy.dotify.api.engine,\
@@ -14,6 +15,7 @@ Private-Package:  \
 	org.daisy.dotify.consumer.text,\
 	org.daisy.dotify.consumer.translator,\
 	org.daisy.dotify.consumer.obfl,\
+	org.daisy.dotify.consumer.osgi,\
 	org.daisy.dotify.consumer.formatter,\
 	org.daisy.dotify.consumer.engine,\
 	org.daisy.dotify.consumer.writer
