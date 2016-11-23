@@ -20,6 +20,7 @@ import java.util.Map;
  */
 public interface TextBorderFactoryMakerService {
 
+	@Deprecated
 	public TextBorderStyle newTextBorderStyle(Map<String, Object> features) throws TextBorderConfigurationException;
 
 }

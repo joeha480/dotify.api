@@ -18,6 +18,7 @@ package org.daisy.dotify.api.translator;
 public interface TextBorderFactoryService {
 
 	public TextBorderFactory newFactory();
+	
 	/**
 	 * <p>Informs the implementation that it was discovered and instantiated using
 	 * information collected from a file within the <tt>META-INF/services</tt> directory.

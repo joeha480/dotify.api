@@ -34,5 +34,8 @@ public interface TextBorderFactory {
 	 * @throws TextBorderConfigurationException if no text border could be created
 	 * based on the currently set features.
 	 */
+	@Deprecated
 	public TextBorderStyle newTextBorderStyle() throws TextBorderConfigurationException;
+	
+	public TextBorderStyle newTextBorderStyle(Border border) throws TextBorderConfigurationException;
 }
