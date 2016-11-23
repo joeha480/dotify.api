@@ -16,6 +16,8 @@ package org.daisy.dotify.api.translator;
  * 
  */
 public interface TextBorderFactoryService {
+	
+	public boolean supportsSpecification(TranslatorMode mode);
 
 	public TextBorderFactory newFactory();
 	

@@ -20,7 +20,11 @@ import java.util.Map;
  */
 public interface TextBorderFactoryMakerService {
 
+	public TextBorderFactory newFactory(TranslatorMode mode) throws TextBorderConfigurationException;
+
 	@Deprecated
 	public TextBorderStyle newTextBorderStyle(Map<String, Object> features) throws TextBorderConfigurationException;
+	
+	public TextBorderStyle newTextBorderStyle(Border border, TranslatorMode mode) throws TextBorderConfigurationException;
 
 }

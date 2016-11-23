@@ -10,8 +10,16 @@ public interface TextBorderFactory {
 	/**
 	 * Mode feature. The corresponding value should be
 	 * a string.
+	 * @deprecated use newTextBorderStyle(Border border, TranslatorMode mode)
 	 */
+	@Deprecated
 	public static final String FEATURE_MODE = "mode";
+	
+	/**
+	 * Eight dot feature. The corresponding value should be
+	 * a boolean. Default is false.
+	 */
+	public static final String FEATURE_EIGHT_DOT = "eight-dot";
 
 	/**
 	 * Sets a feature.
@@ -37,5 +45,5 @@ public interface TextBorderFactory {
 	@Deprecated
 	public TextBorderStyle newTextBorderStyle() throws TextBorderConfigurationException;
 	
-	public TextBorderStyle newTextBorderStyle(Border border) throws TextBorderConfigurationException;
+	public TextBorderStyle newTextBorderStyle(Border border, TranslatorMode mode) throws TextBorderConfigurationException;
 }

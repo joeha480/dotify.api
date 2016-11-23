@@ -7,11 +7,13 @@ import java.util.ServiceLoader;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Logger;
 
+import org.daisy.dotify.api.translator.Border;
 import org.daisy.dotify.api.translator.TextBorderConfigurationException;
 import org.daisy.dotify.api.translator.TextBorderFactory;
 import org.daisy.dotify.api.translator.TextBorderFactoryMakerService;
 import org.daisy.dotify.api.translator.TextBorderFactoryService;
 import org.daisy.dotify.api.translator.TextBorderStyle;
+import org.daisy.dotify.api.translator.TranslatorMode;
 
 import aQute.bnd.annotation.component.Component;
 import aQute.bnd.annotation.component.Reference;
@@ -81,10 +83,22 @@ public class TextBorderFactoryMaker implements TextBorderFactoryMakerService {
 		// iterating
 		factories.remove(factory);
 	}
+	
+	@Override
+	public TextBorderFactory newFactory(TranslatorMode mode) throws TextBorderConfigurationException {
+		for (TextBorderFactoryService s : factories) {
+			if (s.supportsSpecification(mode)) {
+				return s.newFactory();
+			}
+		}
+		throw new TextBorderFactoryMakerException("No factory for " + mode.getName());
+	}
 
 	@Override
+	@Deprecated
 	public TextBorderStyle newTextBorderStyle(Map<String, Object> features) throws TextBorderConfigurationException {
 		// TODO: this could be optimized
+		TextBorderFactoryMakerException ex = new TextBorderFactoryMakerException();
 		for (TextBorderFactoryService s : factories) {
 			TextBorderFactory h = s.newFactory();
 			for (String key : features.keySet()) {
@@ -93,10 +107,26 @@ public class TextBorderFactoryMaker implements TextBorderFactoryMakerService {
 			try {
 				return h.newTextBorderStyle();
 			} catch (TextBorderConfigurationException e) {
-				// try another one
+				ex.addSuppressed(e);
 			}
 		}
-		throw new TextBorderFactoryMakerException();
+		throw ex;
+	}
+	
+	@Override
+	public TextBorderStyle newTextBorderStyle(Border border, TranslatorMode mode) throws TextBorderConfigurationException {
+		TextBorderFactoryMakerException ex = new TextBorderFactoryMakerException("No factory for " + mode.getName());
+		for (TextBorderFactoryService s : factories) {
+			if (s.supportsSpecification(mode)) {
+				TextBorderFactory h = s.newFactory();
+				try {
+					return h.newTextBorderStyle(border, mode);
+				} catch (TextBorderConfigurationException e) {
+					ex.addSuppressed(e);
+				}
+			}
+		}
+		throw ex;
 	}
 	
 	private class TextBorderFactoryMakerException extends TextBorderConfigurationException {
@@ -105,6 +135,20 @@ public class TextBorderFactoryMaker implements TextBorderFactoryMakerService {
 		 * 
 		 */
 		private static final long serialVersionUID = 7241556330716217110L;
+
+		/**
+		 * 
+		 */
+		private TextBorderFactoryMakerException() {
+			super();
+		}
+
+		/**
+		 * @param message
+		 */
+		private TextBorderFactoryMakerException(String message) {
+			super(message);
+		}
 		
 	}
 
