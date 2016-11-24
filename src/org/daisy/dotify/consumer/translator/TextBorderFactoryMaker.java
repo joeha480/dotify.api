@@ -1,8 +1,11 @@
 package org.daisy.dotify.consumer.translator;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.ServiceLoader;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Logger;
@@ -13,7 +16,6 @@ import org.daisy.dotify.api.translator.TextBorderFactory;
 import org.daisy.dotify.api.translator.TextBorderFactoryMakerService;
 import org.daisy.dotify.api.translator.TextBorderFactoryService;
 import org.daisy.dotify.api.translator.TextBorderStyle;
-import org.daisy.dotify.api.translator.TranslatorMode;
 
 import aQute.bnd.annotation.component.Component;
 import aQute.bnd.annotation.component.Reference;
@@ -85,13 +87,13 @@ public class TextBorderFactoryMaker implements TextBorderFactoryMakerService {
 	}
 	
 	@Override
-	public TextBorderFactory newFactory(TranslatorMode mode) throws TextBorderConfigurationException {
+	public TextBorderFactory newFactory(Map<String, Object> features) throws TextBorderConfigurationException {
 		for (TextBorderFactoryService s : factories) {
-			if (s.supportsSpecification(mode)) {
+			if (s.supportsSpecification(features)) {
 				return s.newFactory();
 			}
 		}
-		throw new TextBorderFactoryMakerException("No factory for " + mode.getName());
+		throw new TextBorderFactoryMakerException("No factory for " + features);
 	}
 
 	@Override
@@ -114,13 +116,21 @@ public class TextBorderFactoryMaker implements TextBorderFactoryMakerService {
 	}
 	
 	@Override
-	public TextBorderStyle newTextBorderStyle(Border border, TranslatorMode mode) throws TextBorderConfigurationException {
-		TextBorderFactoryMakerException ex = new TextBorderFactoryMakerException("No factory for " + mode.getName());
+	public TextBorderStyle newTextBorderStyle(Border border) throws TextBorderConfigurationException {
+		return newTextBorderStyle(border, Collections.emptyMap());
+	}
+	
+	@Override
+	public TextBorderStyle newTextBorderStyle(Border border, Map<String, Object> features) throws TextBorderConfigurationException {
+		TextBorderFactoryMakerException ex = new TextBorderFactoryMakerException("No factory for " + features);
 		for (TextBorderFactoryService s : factories) {
-			if (s.supportsSpecification(mode)) {
+			if (s.supportsSpecification(features)) {
 				TextBorderFactory h = s.newFactory();
+				for (Entry<String, Object> feature : features.entrySet()) {
+					h.setFeature(feature.getKey(), feature.getValue());
+				}
 				try {
-					return h.newTextBorderStyle(border, mode);
+					return h.newTextBorderStyle(border);
 				} catch (TextBorderConfigurationException e) {
 					ex.addSuppressed(e);
 				}

@@ -1,5 +1,7 @@
 package org.daisy.dotify.api.translator;
 
+import java.util.Map;
+
 /**
  * <p>
  * Provides an interface for a TextBorderFactory service. The purpose of this
@@ -17,7 +19,7 @@ package org.daisy.dotify.api.translator;
  */
 public interface TextBorderFactoryService {
 	
-	public boolean supportsSpecification(TranslatorMode mode);
+	public boolean supportsSpecification(Map<String, Object> features);
 
 	public TextBorderFactory newFactory();
 	

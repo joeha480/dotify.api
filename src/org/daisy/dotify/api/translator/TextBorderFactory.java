@@ -9,17 +9,42 @@ public interface TextBorderFactory {
 	
 	/**
 	 * Mode feature. The corresponding value should be
-	 * a string.
-	 * @deprecated use newTextBorderStyle(Border border, TranslatorMode mode)
+	 * a string. 
 	 */
-	@Deprecated
 	public static final String FEATURE_MODE = "mode";
 	
 	/**
-	 * Eight dot feature. The corresponding value should be
-	 * a boolean. Default is false.
+	 * Style feature. The corresponding value should be
+	 * a string. See StyleValues enum for recommended values.
 	 */
-	public static final String FEATURE_EIGHT_DOT = "eight-dot";
+	public static final String FEATURE_STYLE = "style";
+	
+	/**
+	 * <p>Border width feature. The corresponding value should be
+	 * a string ("regular", "wide"). If this value is set to "wide",
+	 * it supports creating text borders with more than one character
+	 * in width.</p>
+	 * 
+	 * <p>Note that
+	 * more than one character in height is not controlled by this
+	 * feature (it's not supported by text border style).</p>
+	 */
+	public static final String FEATURE_WIDTH_RANGE = "width-range";
+	
+	enum StyleValues {
+		SIX_DOT("six-dot-braille"),
+		EIGHT_DOT("eight-dot-braille"),
+		TEXT("text");
+		
+		private final String str;
+		StyleValues(String str) {
+			this.str = str;
+		}
+		
+		public String getName() {
+			return str;
+		}
+	}
 
 	/**
 	 * Sets a feature.
@@ -45,5 +70,5 @@ public interface TextBorderFactory {
 	@Deprecated
 	public TextBorderStyle newTextBorderStyle() throws TextBorderConfigurationException;
 	
-	public TextBorderStyle newTextBorderStyle(Border border, TranslatorMode mode) throws TextBorderConfigurationException;
+	public TextBorderStyle newTextBorderStyle(Border border) throws TextBorderConfigurationException;
 }

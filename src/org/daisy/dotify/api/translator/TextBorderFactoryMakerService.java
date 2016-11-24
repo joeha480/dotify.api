@@ -1,5 +1,6 @@
 package org.daisy.dotify.api.translator;
 
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -20,11 +21,13 @@ import java.util.Map;
  */
 public interface TextBorderFactoryMakerService {
 
-	public TextBorderFactory newFactory(TranslatorMode mode) throws TextBorderConfigurationException;
+	public TextBorderFactory newFactory(Map<String, Object> features) throws TextBorderConfigurationException;
 
 	@Deprecated
 	public TextBorderStyle newTextBorderStyle(Map<String, Object> features) throws TextBorderConfigurationException;
 	
-	public TextBorderStyle newTextBorderStyle(Border border, TranslatorMode mode) throws TextBorderConfigurationException;
+	public TextBorderStyle newTextBorderStyle(Border border) throws TextBorderConfigurationException;
+	
+	public TextBorderStyle newTextBorderStyle(Border border, Map<String, Object> features) throws TextBorderConfigurationException;
 
 }
