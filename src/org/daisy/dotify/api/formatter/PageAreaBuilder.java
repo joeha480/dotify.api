@@ -1,11 +1,11 @@
 package org.daisy.dotify.api.formatter;
 
-//FIXME: rename to PageArea
 /**
  * Provides a page area builder.
  * @author Joel Håkansson
- *
+ * @deprecated
  */
+@Deprecated
 public interface PageAreaBuilder {
 
 	/**

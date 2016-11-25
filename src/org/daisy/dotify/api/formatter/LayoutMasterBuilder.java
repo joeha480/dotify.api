@@ -9,5 +9,5 @@ public interface LayoutMasterBuilder {
 	 * @param properties the properties of the page area
 	 * @return returns a page area builder
 	 */
-	public PageAreaBuilder setPageArea(PageAreaProperties properties);
+	public PageArea setPageArea(PageAreaProperties properties);
 }
