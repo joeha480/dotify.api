@@ -9,15 +9,11 @@ public interface TextBorderFactory {
 	
 	/**
 	 * Mode feature. The corresponding value should be
-	 * a string. 
+	 * a string. It is recommended that an implementation
+	 * supports at least one of the values provided by the
+	 * StyleValues enum.
 	 */
 	public static final String FEATURE_MODE = "mode";
-	
-	/**
-	 * Style feature. The corresponding value should be
-	 * a string. See StyleValues enum for recommended values.
-	 */
-	public static final String FEATURE_STYLE = "style";
 	
 	/**
 	 * <p>Border width feature. The corresponding value should be
@@ -31,13 +27,18 @@ public interface TextBorderFactory {
 	 */
 	public static final String FEATURE_WIDTH_RANGE = "width-range";
 	
-	enum StyleValues {
+	/**
+	 * Provides values for the mode feature.
+	 * @author Joel Håkansson
+	 *
+	 */
+	public enum ModeValues {
 		SIX_DOT("six-dot-braille"),
 		EIGHT_DOT("eight-dot-braille"),
 		TEXT("text");
 		
 		private final String str;
-		StyleValues(String str) {
+		ModeValues(String str) {
 			this.str = str;
 		}
 		
