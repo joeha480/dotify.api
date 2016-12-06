@@ -3,6 +3,7 @@ package org.daisy.dotify.api.translator;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Provides a default implementation of text attributes.
@@ -65,6 +66,16 @@ public class DefaultTextAttribute implements TextAttribute {
 		public DefaultTextAttribute build(int length) {
 			return new DefaultTextAttribute(length, this);
 		}
+		
+		/**
+		 * Creates a new default text attribute based on the
+		 * current state of the builder.
+		 * @return returns a new default text attribute
+		 * @throws IllegalArgumentException if there are no child attributes
+		 */
+		public DefaultTextAttribute build() {
+			return new DefaultTextAttribute(this);
+		}
 	}
 
 	protected DefaultTextAttribute(int length, Builder builder) {
@@ -78,6 +89,15 @@ public class DefaultTextAttribute implements TextAttribute {
 		if (s > 0 && s != length) {
 			throw new IllegalArgumentException("Text attribute size (" + s + ") does not match specified length (" + length + ").");
 		}
+	}
+	
+	protected DefaultTextAttribute(Builder builder) {
+		if (builder.attributes.isEmpty()) {
+			throw new IllegalArgumentException("At least one attribute required.");
+		}
+		this.length = builder.attributes.stream().collect(Collectors.summingInt(a->a.getWidth()));
+		this.identifier = builder.identifier;
+		this.attributes = builder.attributes;
 	}
 
 	@Override
