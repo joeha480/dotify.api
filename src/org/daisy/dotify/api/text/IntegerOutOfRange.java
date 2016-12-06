@@ -31,11 +31,23 @@ public class IntegerOutOfRange extends Exception {
 	public IntegerOutOfRange(String message) {
 		super(message);
 	}
+	
+    /**
+     * Constructs a new <code>IntegerOutOfRange</code>
+     * class with an argument indicating the illegal value.
+     *
+     * @param   value   the illegal value.
+     */
+	public IntegerOutOfRange(int value) {
+		super("Value out of range: " + value);
+	}
 
+	@Deprecated
 	public IntegerOutOfRange(Throwable cause) {
 		super(cause);
 	}
 
+	@Deprecated
 	public IntegerOutOfRange(String message, Throwable cause) {
 		super(message, cause);
 	}
