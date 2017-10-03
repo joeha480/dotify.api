@@ -1,6 +1,7 @@
 package org.daisy.dotify.api.embosser;
 
 import java.io.OutputStream;
+import java.util.Set;
 
 import org.daisy.dotify.api.factory.Factory;
 import org.daisy.dotify.api.paper.Area;
@@ -15,6 +16,8 @@ import org.daisy.dotify.api.table.TableFilter;
  */
 public interface Embosser extends Factory, EmbosserFactoryProperties, EmbosserProperties {
 
+	public Set<RowSpacingDefinition> getSupportedRowSpacings();
+	
 	/**
 	 * Returns true if dimension is supported
 	 * @param printPage the dimension to test
