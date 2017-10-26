@@ -9,6 +9,12 @@ package org.daisy.dotify.api.formatter;
 public interface VolumeContentBuilder extends FormatterCore {
 	
 	/**
+	 * Sets properties of this {@link VolumeContentBuilder}
+	 * @param props the properties
+	 */
+	public void setProperties(VolumeContentBuilderProperties props);
+	
+	/**
 	 * Creates a new sequence at the current position.
 	 *  
 	 * @param props the properties of the sequence
