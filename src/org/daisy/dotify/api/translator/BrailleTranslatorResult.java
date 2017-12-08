@@ -109,5 +109,12 @@ public interface BrailleTranslatorResult {
 	 * @throws UnsupportedOperationException if the operation is not supported
 	 */
 	public BrailleTranslatorResult copy();
+	
+	//public boolean copySupported();
+	
+	/**
+	 * Resets the result to its initial state.
+	 */
+	//public void reset();
 
 }
