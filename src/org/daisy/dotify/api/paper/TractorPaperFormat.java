@@ -5,7 +5,7 @@ package org.daisy.dotify.api.paper;
  * Provides a paper format for tractor paper.
  * @author Joel Håkansson
  */
-public class TractorPaperFormat extends AbstractPageFormat {
+public class TractorPaperFormat implements PageFormat, TractorPageFormat {
 	private final Length across, along;
 
 	/**
@@ -27,18 +27,12 @@ public class TractorPaperFormat extends AbstractPageFormat {
 		this.along = alongPaperFeed;
 	}
 
-	/**
-	 * Gets the length of the paper perpendicular to the direction of the paper feed.
-	 * @return returns the length.
-	 */
+	@Override
 	public Length getLengthAcrossFeed() {
 		return across;
 	}
 
-	/**
-	 * Gets the length of the paper along the direction of the paper feed.
-	 * @return returns the length.
-	 */
+	@Override
 	public Length getLengthAlongFeed() {
 		return along;
 	}
@@ -49,7 +43,7 @@ public class TractorPaperFormat extends AbstractPageFormat {
 	}
 
 	@Override
-	public TractorPaperFormat asTractorPaperFormat() {
+	public TractorPageFormat asTractorPaperFormat() {
 		return this;
 	}
 

@@ -5,7 +5,7 @@ package org.daisy.dotify.api.paper;
  * Provides a paper format for paper in rolls.
  * @author Joel Håkansson
  */
-public class RollPaperFormat extends AbstractPageFormat {
+public class RollPaperFormat implements PageFormat, RollPageFormat {
 	private final Length across, along;
 
 	/**
@@ -28,18 +28,12 @@ public class RollPaperFormat extends AbstractPageFormat {
 		this.along = alongPaperFeed;
 	}
 
-	/**
-	 * Gets the length of the paper perpendicular to the direction of the paper feed
-	 * @return returns the length.
-	 */
+	@Override
 	public Length getLengthAcrossFeed() {
 		return across;
 	}
 
-	/**
-	 * Gets the length of the paper along the direction of the paper feed
-	 * @return returns the length.
-	 */
+	@Override
 	public Length getLengthAlongFeed() {
 		return along;
 	}
@@ -50,7 +44,7 @@ public class RollPaperFormat extends AbstractPageFormat {
 	}
 
 	@Override
-	public RollPaperFormat asRollPaperFormat() {
+	public RollPageFormat asRollPaperFormat() {
 		return this;
 	}
 

@@ -5,20 +5,8 @@ package org.daisy.dotify.api.paper;
  * Provides a paper format for cut-sheet paper.
  * @author Joel Håkansson
  */
-public class SheetPaperFormat extends AbstractPageFormat {
-	/**
-	 * The width/height orientation of the page
-	 */
-	public enum Orientation {
-		/**
-		 *  Represents default orientation as defined by the Paper
-		 */
-		DEFAULT,
-		/**
-		 *  Represents reversed orientation as defined by the Paper
-		 */
-		REVERSED
-	}
+public class SheetPaperFormat implements PageFormat, SheetPageFormat {
+
 	private final Orientation orientation;
 	private final Length pageWidth, pageHeight;
 
@@ -54,18 +42,12 @@ public class SheetPaperFormat extends AbstractPageFormat {
 		this.orientation = orientation;
 	}
 
-	/**
-	 * Gets the orientation of this paper format.
-	 * @return returns the orientation
-	 */
+	@Override
 	public Orientation getOrientation() {
 		return orientation;
 	}
 
-	/**
-	 * Gets the page width with respect to the orientation of the paper format
-	 * @return returns the width.
-	 */
+	@Override
 	public Length getPageWidth() {
 		switch (orientation) {
 		case REVERSED:
@@ -75,10 +57,7 @@ public class SheetPaperFormat extends AbstractPageFormat {
 		}
 	}
 
-	/**
-	 * Gets the page height with respect to the orientation of the paper format
-	 * @return returns the height.
-	 */
+	@Override
 	public Length getPageHeight() {
 		switch (orientation) {
 		case REVERSED:
@@ -94,7 +73,7 @@ public class SheetPaperFormat extends AbstractPageFormat {
 	}
 
 	@Override
-	public SheetPaperFormat asSheetPaperFormat() {
+	public SheetPageFormat asSheetPaperFormat() {
 		return this;
 	}
 

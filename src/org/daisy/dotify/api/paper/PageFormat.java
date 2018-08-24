@@ -37,20 +37,26 @@ public interface PageFormat {
 		 * @return returns the SheetPaperFormat
 		 * @throws ClassCastException if the instance is not SheetPaperFormat
 		 */
-		public SheetPaperFormat asSheetPaperFormat();
+		public default SheetPageFormat asSheetPaperFormat() {
+			throw new ClassCastException();
+		}
 
 		/**
 		 * Returns this PageFormat as a TractorPaperFormat
 		 * @return returns the TractorPaperFormat
 		 * @throws ClassCastException if the instance is not TractorPaperFormat
 		 */
-		public TractorPaperFormat asTractorPaperFormat();
+		public default TractorPageFormat asTractorPaperFormat() {
+			throw new ClassCastException();
+		}
 
 		/**
 		 * Returns this PageFormat as a RollPaperFormat
 		 * @return returns the RollPaperFormat
 		 * @throws ClassCastException if the instance is not RollPaperFormat
 		 */
-		public RollPaperFormat asRollPaperFormat();
+		public default RollPageFormat asRollPaperFormat() {
+			throw new ClassCastException();
+		}
 
 }
