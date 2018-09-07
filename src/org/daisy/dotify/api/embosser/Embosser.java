@@ -15,6 +15,9 @@ import org.daisy.dotify.api.table.TableFilter;
  */
 public interface Embosser extends Factory, EmbosserFactoryProperties, EmbosserProperties {
 
+	//FIXME: temporary
+	@Deprecated
+	public void setFeature(String key, Object value);
 	/**
 	 * Returns true if dimension is supported
 	 * @param printPage the dimension to test
@@ -29,6 +32,19 @@ public interface Embosser extends Factory, EmbosserFactoryProperties, EmbosserPr
 	 * @return returns true if the page format is supported, false otherwise
 	 */
 	public boolean supportsPageFormat(PageFormat pageFormat);
+	
+	/**
+	 * Gets the current page format.
+	 * @return the page format
+	 */
+	public PageFormat getPageFormat();
+	
+	/**
+	 * Sets the page format.
+	 * @param pageFormat the page format
+	 * @throws IllegalArgumentException if the page format isn't supported (see {@link #supportsPageFormat(PageFormat)})
+	 */
+	public void setPageFormat(PageFormat pageFormat);
 
 	/**
 	 * Returns thue if the paper is supported.
@@ -43,6 +59,19 @@ public interface Embosser extends Factory, EmbosserFactoryProperties, EmbosserPr
 	 * @return returns true if table is supported
 	 */
 	public boolean supportsTable(Table table);
+	
+	/**
+	 * Gets the current table.
+	 * @return the table
+	 */
+	public Table getTable();
+	
+	/**
+	 * Sets the current table.
+	 * @param table the table
+	 * @throws IllegalArgumentException if the table isn't supported (see {@link #supportsTable(Table)}).
+	 */
+	public void setTable(Table table);
 
 	/**
 	 * Gets a table filter that returns true if supportsTable returns true

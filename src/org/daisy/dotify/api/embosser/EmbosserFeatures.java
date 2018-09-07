@@ -32,17 +32,22 @@ public class EmbosserFeatures {
 	 * Embosser feature key,
 	 * corresponding value should match a table identifier
 	 */
+	@Deprecated
 	public static final String TABLE = "table";
 	/**
 	 * Embosser feature key,
 	 * corresponding value should be a {@link PageFormat} object
+	 * @deprecated use {@link Embosser#getPageFormat()} and 
+	 * {@link Embosser#setPageFormat(PageFormat)}
 	 */
+	@Deprecated
 	public static final String PAGE_FORMAT = "pageFormat";
 
 	/**
 	 * Embosser feature key,
 	 * corresponding value should be an integer
 	 */
+	@Deprecated
 	public static final String NUMBER_OF_COPIES = "copies";
 
 	/**
@@ -61,6 +66,7 @@ public class EmbosserFeatures {
 	 * Embosser feature key,
 	 * corresponding value should be a boolean
 	 */
+	@Deprecated
 	public static final String DUPLEX = "duplex";
 
 	/**
