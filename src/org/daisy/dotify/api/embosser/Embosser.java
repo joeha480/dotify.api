@@ -1,6 +1,7 @@
 package org.daisy.dotify.api.embosser;
 
 import java.io.OutputStream;
+import java.util.List;
 
 import org.daisy.dotify.api.factory.Factory;
 import org.daisy.dotify.api.paper.Area;
@@ -43,6 +44,8 @@ public interface Embosser extends Factory, EmbosserFactoryProperties, EmbosserPr
 	 * @return returns true if table is supported
 	 */
 	public boolean supportsTable(Table table);
+	
+	public List<Table> getSupportedTables();
 
 	/**
 	 * Gets a table filter that returns true if supportsTable returns true
