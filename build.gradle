@@ -40,6 +40,7 @@ def repoRevision = System.getenv("REPO_REVISION")!=null?System.getenv("REPO_REVI
 javadoc {
 	options.encoding = 'UTF-8'
 	options.links('http://docs.oracle.com/javase/8/docs/api/')
+	options.overview = "javadoc-overview.html" //NOTE: THIS DOCUMENT NEEDS AN UPDATE, SINCE IT DESCRIBES BRAILLE UTILS ONLY
 }
 
 repositories {
