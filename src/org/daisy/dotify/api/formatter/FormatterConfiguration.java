@@ -2,6 +2,9 @@ package org.daisy.dotify.api.formatter;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -10,6 +13,29 @@ import java.util.Set;
  *
  */
 public class FormatterConfiguration {
+	public enum KeyMap {
+		LOCALE,
+		BRAILLE_TRANSLATION,
+		HYPHENATE,
+		MARK_CAPITAL_LETTERS;
+		private final String key;
+		KeyMap() {
+			this.key = name().toLowerCase(Locale.getDefault()).replace('_', '-');
+		}
+		String getKey() {
+			return key;
+		}
+
+		/**
+		 * @param key
+		 * @return
+		 * @throws IllegalArgumentException if no match is found
+		 */
+		static KeyMap toValue(String key) {
+			return KeyMap.valueOf(key.toUpperCase(Locale.getDefault()).replace('-', '_'));
+		}
+	}
+	
 	private final String translationMode;
 	private final String locale;
 	private final boolean allowsTextOverflowTrimming;
@@ -39,6 +65,29 @@ public class FormatterConfiguration {
 		public Builder(String locale, String mode) {
 			this.translationMode = mode;
 			this.locale = locale;
+		}
+		private Builder(Map<String, Object> params) {
+			this.locale = Optional.ofNullable(params.get(KeyMap.LOCALE.getKey())).map(v->v.toString()).orElseThrow(IllegalArgumentException::new);
+			this.translationMode = Optional.ofNullable(params.get(KeyMap.BRAILLE_TRANSLATION.getKey())).map(v->v.toString()).orElseThrow(IllegalArgumentException::new);
+			params.keySet().forEach(key->{
+				try {
+					KeyMap keyMap = KeyMap.toValue(key);
+					String value = params.get(key)+"";
+					switch (keyMap) {
+						case LOCALE: break;
+						case BRAILLE_TRANSLATION: break;
+						case HYPHENATE:
+							hyphenate("true".equals(value));
+							break;
+						case MARK_CAPITAL_LETTERS:
+							markCapitalLetters("true".equals(value));
+							break;
+						default: throw new AssertionError("Error in code.");
+					}
+				} catch (IllegalArgumentException e) {
+					// TODO: Log
+				}
+			});
 		}
 		/**
 		 * Sets the text overflow trimming policy. If the value is true, text that overflows 
@@ -111,6 +160,10 @@ public class FormatterConfiguration {
 	 */
 	public static Builder with(String locale, String mode) {
 		return new Builder(locale, mode);
+	}
+	
+	public static Builder from(Map<String, Object> params) {
+		return new Builder(params);
 	}
 
 	private FormatterConfiguration(Builder builder) {
