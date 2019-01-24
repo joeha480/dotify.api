@@ -1,5 +1,7 @@
 package org.daisy.dotify.api.formatter;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -10,6 +12,7 @@ import java.util.List;
 public class FieldList {
 	private final List<Field> contents;
 	private final Float rowSpacing;
+	private final boolean flowArea;
 	
 	/**
 	 * Provides a field list builder
@@ -47,8 +50,9 @@ public class FieldList {
 	}
 	
 	private FieldList(Builder builder) {
-		this.contents = builder.contents;
+		this.contents = Collections.unmodifiableList(new ArrayList<>(builder.contents));
 		this.rowSpacing = builder.rowSpacing;
+		this.flowArea = contents.stream().anyMatch(v->v instanceof NoField);
 	}
 	
 	/**
@@ -65,6 +69,14 @@ public class FieldList {
 	 */
 	public List<Field> getFields() {
 		return contents;
+	}
+	
+	/**
+	 * Returns true if the field list contains a {@link NoField}.
+	 * @return true if the field list contans a {@link NoField}, false otherwise.
+	 */
+	public boolean hasFlowArea() {
+		return flowArea;
 	}
 
 }
