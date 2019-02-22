@@ -27,6 +27,10 @@ public interface BrailleTranslatorFactory {
 	 * @return returns a new translator
 	 * @throws TranslatorConfigurationException if the specification is not supported
 	 */
-	public BrailleTranslator newTranslator(String locale, String mode) throws TranslatorConfigurationException;
+	public default BrailleTranslator newTranslator(String locale, String mode) throws TranslatorConfigurationException {
+		return newTranslator(new TranslatorSpecification(locale, mode));
+	}
+	
+	public BrailleTranslator newTranslator(TranslatorSpecification spec) throws TranslatorConfigurationException;
 
 }

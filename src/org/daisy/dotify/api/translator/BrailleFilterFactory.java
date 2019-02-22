@@ -14,6 +14,10 @@ public interface BrailleFilterFactory {
 	 * @return returns a new braille filter
 	 * @throws TranslatorConfigurationException if the specification is not supported
 	 */
-	public BrailleFilter newFilter(String locale, String mode) throws TranslatorConfigurationException;
+	public default BrailleFilter newFilter(String locale, String mode) throws TranslatorConfigurationException {
+		return newFilter(new TranslatorSpecification(locale, mode));
+	}
+	
+	public BrailleFilter newFilter(TranslatorSpecification spec) throws TranslatorConfigurationException;
 
 }

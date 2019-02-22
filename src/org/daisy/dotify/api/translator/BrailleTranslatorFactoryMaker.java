@@ -35,7 +35,7 @@ import org.osgi.service.component.annotations.ReferencePolicy;
 public class BrailleTranslatorFactoryMaker implements
 		BrailleTranslatorFactoryMakerService {
 	private final List<BrailleTranslatorFactoryService> factories;
-	private final Map<String, BrailleTranslatorFactoryService> map;
+	private final Map<TranslatorSpecification, BrailleTranslatorFactoryService> map;
 	private final Logger logger;
 
 	/**
@@ -44,7 +44,7 @@ public class BrailleTranslatorFactoryMaker implements
 	public BrailleTranslatorFactoryMaker() {
 		logger = Logger.getLogger(this.getClass().getCanonicalName());
 		factories = new CopyOnWriteArrayList<>();
-		this.map = Collections.synchronizedMap(new HashMap<String, BrailleTranslatorFactoryService>());
+		this.map = Collections.synchronizedMap(new HashMap<>());
 	}
 
 	/**
@@ -103,13 +103,14 @@ public class BrailleTranslatorFactoryMaker implements
 		}
 	}
 
-	private static String toKey(String locale, String grade) {
-		return locale.toLowerCase() + "(" + grade.toUpperCase() + ")";
+	@Override
+	public boolean supportsSpecification(String locale, String grade) {
+		return supportsSpecification(new TranslatorSpecification(locale, grade));
 	}
 	
 	@Override
-	public boolean supportsSpecification(String locale, String grade) {
-		return map.get(toKey(locale, grade)) != null;
+	public boolean supportsSpecification(TranslatorSpecification spec) {
+		return map.get(spec) != null;
 	}
 	
 	/**
@@ -122,17 +123,22 @@ public class BrailleTranslatorFactoryMaker implements
 	 */
 	@Override
 	public BrailleTranslatorFactory newFactory(String locale, String grade) throws TranslatorConfigurationException {
-		BrailleTranslatorFactoryService template = map.get(toKey(locale, grade));
+		return newFactory(new TranslatorSpecification(locale, grade));
+	}
+	
+	@Override
+	public BrailleTranslatorFactory newFactory(TranslatorSpecification spec) throws TranslatorConfigurationException {
+		BrailleTranslatorFactoryService template = map.get(spec);
 		if (template==null) {
 			// this is to avoid adding items to the cache that were removed
 			// while iterating
 			synchronized (map) {
 				for (BrailleTranslatorFactoryService h : factories) {
-					if (h.supportsSpecification(locale, grade)) {
+					if (h.supportsSpecification(spec)) {
 						if (logger.isLoggable(Level.FINE)) {
-							logger.fine("Found a factory for " + locale + " (" + h.getClass() + ")");
+							logger.fine("Found a factory for " + spec + " (" + h.getClass() + ")");
 						}
-						map.put(toKey(locale, grade), h);
+						map.put(spec, h);
 						template = h;
 						break;
 					}
@@ -140,14 +146,19 @@ public class BrailleTranslatorFactoryMaker implements
 			}
 		}
 		if (template==null) {
-			throw new BrailleTranslatorFactoryMakerConfigurationException("Cannot locate a factory for " + toKey(locale, grade));
+			throw new BrailleTranslatorFactoryMakerConfigurationException("Cannot locate a factory for " + spec);
 		}
 		return template.newFactory();
 	}
 	
 	@Override
 	public BrailleTranslator newTranslator(String locale, String grade) throws TranslatorConfigurationException {
-		return newFactory(locale, grade).newTranslator(locale, grade);
+		return newTranslator(new TranslatorSpecification(locale, grade));
+	}
+	
+	@Override
+	public BrailleTranslator newTranslator(TranslatorSpecification spec) throws TranslatorConfigurationException {
+		return newFactory(spec).newTranslator(spec);
 	}
 	
 	private class BrailleTranslatorFactoryMakerConfigurationException extends TranslatorConfigurationException {

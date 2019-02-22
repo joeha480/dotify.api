@@ -28,7 +28,11 @@ public interface BrailleTranslatorFactoryService {
 	 *            the translator grade, or null for uncontracted braille
 	 * @return returns true if the translator factory supports the specification
 	 */
-	public boolean supportsSpecification(String locale, String mode);
+	public default boolean supportsSpecification(String locale, String mode) {
+		return supportsSpecification(new TranslatorSpecification(locale, mode));
+	}
+	
+	public boolean supportsSpecification(TranslatorSpecification spec);
 	
 	/**
 	 * Returns a list of supported specifications.

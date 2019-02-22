@@ -28,7 +28,11 @@ public interface BrailleFilterFactoryMakerService {
 	 *            the filter grade, or null for uncontracted braille
 	 * @return returns true if the filter factory supports the specification
 	 */
-	public boolean supportsSpecification(String locale, String mode);
+	public default boolean supportsSpecification(String locale, String mode) {
+		return supportsSpecification(new TranslatorSpecification(locale, mode));
+	}
+	
+	public boolean supportsSpecification(TranslatorSpecification spec);
 
 	/**
 	 * Returns a list of supported specifications.
@@ -47,7 +51,12 @@ public interface BrailleFilterFactoryMakerService {
 	 * @throws TranslatorConfigurationException
 	 *             if the specification is not supported
 	 */
-	public BrailleFilterFactory newFactory(String locale, String grade) throws TranslatorConfigurationException;
+	public default BrailleFilterFactory newFactory(String locale, String grade) throws TranslatorConfigurationException {
+		return newFactory(new TranslatorSpecification(locale, grade));
+	}
+	
+	
+	public BrailleFilterFactory newFactory(TranslatorSpecification spec) throws TranslatorConfigurationException;
 	
 	/**
 	 * Gets a filter for the given specification
@@ -56,6 +65,10 @@ public interface BrailleFilterFactoryMakerService {
 	 * @return returns a braille filter
 	 * @throws TranslatorConfigurationException if the specification is not supported
 	 */
-	public BrailleFilter newFilter(String locale, String grade) throws TranslatorConfigurationException;
+	public default BrailleFilter newFilter(String locale, String grade) throws TranslatorConfigurationException {
+		return newFilter(new TranslatorSpecification(locale, grade));
+	}
+	
+	public BrailleFilter newFilter(TranslatorSpecification spec) throws TranslatorConfigurationException;
 
 }
