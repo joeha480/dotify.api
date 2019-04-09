@@ -7,6 +7,11 @@ package org.daisy.dotify.api.formatter;
  *
  */
 public interface Context {
+	static final Context EMPTY_CONTEXT = new Context() {};
+	
+	public static Context emptyContext() {
+		return EMPTY_CONTEXT;
+	}
 
 	/**
 	 * Gets the current volume number (one based) or null if not known.

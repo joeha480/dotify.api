@@ -14,7 +14,9 @@ public interface DynamicContent {
 	 * 
 	 * @return returns the evaluation result
 	 */
-	public String render();
+	public default String render() {
+		return render(Context.emptyContext());
+	}
 
 	/**
 	 * <p>Renders the content in the supplied context.</p> 
